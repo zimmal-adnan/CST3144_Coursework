@@ -12,6 +12,13 @@
                 <h1 v-text="sitename"></h1>
             </header>
             <main>
+                <div v-for="course in courses">
+                    <h2 v-text="course.subject"></h2>
+                    <p v-html="course.description"></p>
+                    <p>Location: {{courses.location}}</p>
+                    <p>Price: {{courses.price}}</p>
+                    <p>Available Space: {{courses.availableSpace}} </p>
+                </div>
                
                 
             </main>
@@ -21,6 +28,26 @@
                 el: '#app',
                 data: {
                     sitename: "Book Your After School Classes",
+                    courses: [
+                        {
+                            id: 1001,
+                            subject: 'Swimming',
+                            description: "This is a Swimming Class!",
+                            location: "<b>6th Avenue, London</b>",
+                            price: 2000,
+                            availableSpace: 5,
+                        },
+                        {
+                            id: 1002,
+                            subject: 'Maths',
+                            description: "This is a Maths Class!",
+                            location: "<b>6th Avenue, Westford</b>",
+                            price: 1000,
+                            availableSpace: 5,
+
+                        }
+                        
+                    ]
                 },
             });  
             
