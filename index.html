@@ -63,7 +63,7 @@
                         </li>
                     </ul>
 
-                    <button v-if="checkoutVisible">Checkout</button>
+                    <button v-on:click="submitForm" v-if="checkoutVisible">Checkout</button>
                     <button disabled = "disabled" v-else>Checkout</button>
                 </div>
                 
@@ -250,6 +250,10 @@
                     checkName(value){
                         return /^[A-Za-z]+$/.test(value);
                     },
+
+                    submitForm(){
+                        alert("Order Submitted!")
+                    }
 
 
                 },
