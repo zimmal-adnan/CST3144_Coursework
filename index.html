@@ -37,15 +37,18 @@
 
                     <p>
                         <strong>First Name:</strong>
-                        <input v-model.trim="order.firstName"/>
+                        <input v-model.trim="order.firstName" title="Enter first name..."/>
+                        <span v-if="order.firstName && !checkName(order.firstName)">Letters only!</span>
                     </p>
                     <p>
                         <strong>Last Name:</strong>
-                        <input v-model.trim="order.lastName"/>
+                        <input v-model.trim="order.lastName" title="Enter last name..."/>
+                        <span v-if="order.lastName && !checkName(order.lastName)">Letters only!</span>
                     </p>
                      <p>
                         <strong>Phone:</strong>
-                        <input v-model.trim="order.phone"/>
+                        <input v-model.trim="order.phone" title="Enter phone number..."/>
+                        <span v-if="order.phone && !checkPhone(order.phone)">Please enter a valid phone number</span>
                     </p>
 
                     <h2>Order Information</h2>
@@ -55,12 +58,13 @@
 
 
                     <ul>
-                        <li v-for="courses in cart" :key="courses.id">
+                        <li v-for="courses in cart">
                             {{courses.subject}}
                         </li>
                     </ul>
 
-                    <button>Checkout</button>
+                    <button v-if="checkoutVisible">Checkout</button>
+                    <button disabled = "disabled" v-else>Checkout</button>
                 </div>
                 
             </main>
@@ -239,8 +243,15 @@
                     showCheckout(){
                         this.showCourse = this.showCourse ? false: true;
                     },
-                
-             
+
+                    checkPhone(value){
+                        return /^[0-9]+$/.test(value);
+                    },
+                    checkName(value){
+                        return /^[A-Za-z]+$/.test(value);
+                    },
+
+
                 },
                 computed: {
                     cartItemCount(){
@@ -248,8 +259,11 @@
                     },
                     canCheckout(){
                         return this.cart.length > 0;
+                    },
+                    checkoutVisible(){
+                        return this.checkName(this.order.firstName) && this.checkName(this.order.lastName) && this.checkPhone(this.order.phone);
                     }
-                  
+      
                 }
             });  
             
