@@ -12,12 +12,16 @@
                 <h1 v-text="sitename"></h1>
             </header>
             <main>
-                <div v-for="course in courses">
+                <div v-for="course in courses" v-if="showCourse">
                     <h2 v-text="course.subject"></h2>
                     <p>{{course.description}}</p>
                     <p>Location: <span v-html="course.location"></span></p>
                     <p>Price: {{course.price}}</p>
                     <p>Available Space: {{course.availableSpace}} </p>
+
+
+                    <button v-on:click="addToCart(course)" v-if="canAddToCart(course)">Add to Cart</button>
+                    <button disabled = "disabled" v-else>Add to Cart</button>
                 </div>
                
                 
@@ -175,8 +179,26 @@
                             availableSpace: 5,
                         }
                                    
-                    ]
+                    ],
+                    showCourse: true,
+                    cart: []    
                 },
+                methods: {
+                    addToCart: function(course) {
+                        this.cart.push(course.id);
+                        course.availableSpace -= 1;
+                    },
+                    canAddToCart: function(course){
+                        return course.availableSpace > 0;
+                    }
+             
+                },
+                computed: {
+                    cartItemCount: function(){
+                        return this.cart.length || "";
+                    },
+                  
+                }
             });  
             
         </script>
