@@ -11,13 +11,10 @@
             <header>
                 <h1 v-text="sitename"></h1>
             
-                <button v-on:click="showCheckout">
-                    {{cartItemCount}}
-                    <span class = "fa-solid fa-cart-shopping"></span> Checkout
-                </button>
-                
+                <button v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Checkout</button>
+                <button disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span>Checkout</button>
             </header>
-            </header>
+
             <main>
                 <div v-for="course in courses" v-if="showCourse">
                     <h2 v-text="course.subject"></h2>
@@ -191,22 +188,27 @@
                     cart: []    
                 },
                 methods: {
-                    addToCart: function(course) {
+                    addToCart(course) {
                         this.cart.push(course.id);
                         course.availableSpace -= 1;
                     },
-                    canAddToCart: function(course){
+                    canAddToCart(course){
                         return course.availableSpace > 0;
                     },
                     showCheckout(){
                         this.showCourse = this.showCourse ? false: true;
                     },
+                   
+
              
                 },
                 computed: {
-                    cartItemCount: function(){
+                    cartItemCount(){
                         return this.cart.length || "";
                     },
+                    canCheckout(){
+                        return this.cart.length > 0;
+                    }
                   
                 }
             });  
