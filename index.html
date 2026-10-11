@@ -11,23 +11,57 @@
             <header>
                 <h1 v-text="sitename"></h1>
             
-                <button v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Checkout</button>
-                <button disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span>Checkout</button>
+                <button v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
+                <button disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
             </header>
 
             <main>
-                <div v-for="course in courses" v-if="showCourse">
-                    <h2 v-text="course.subject"></h2>
-                    <p>{{course.description}}</p>
-                    <p>Location: <span v-html="course.location"></span></p>
-                    <p>Price: {{course.price}}</p>
-                    <p>Available Space: {{course.availableSpace}} </p>
+                <div v-if="showCourse">
+                    <div v-for="course in courses">
+                        <h2 v-text="course.subject"></h2>
+                        <p>{{course.description}}</p>
+                        <p>Location: <span v-html="course.location"></span></p>
+                        <p>Price: {{course.price}}</p>
+                        <p>Available Space: {{course.availableSpace}} </p>
 
 
-                    <button v-on:click="addToCart(course)" v-if="canAddToCart(course)">Add to Cart</button>
-                    <button disabled = "disabled" v-else>Add to Cart</button>
+                        <button v-on:click="addToCart(course)" v-if="canAddToCart(course)">Add to Cart</button>
+                        <button disabled = "disabled" v-else>Add to Cart</button>
+                    </div>
                 </div>
-               
+                
+
+
+               <div v-else>
+                    <h2>Checkout Page for Customer</h2>
+
+                    <p>
+                        <strong>First Name:</strong>
+                        <input v-model.trim="order.firstName"/>
+                    </p>
+                    <p>
+                        <strong>Last Name:</strong>
+                        <input v-model.trim="order.lastName"/>
+                    </p>
+                     <p>
+                        <strong>Phone:</strong>
+                        <input v-model.trim="order.phone"/>
+                    </p>
+
+                    <h2>Order Information</h2>
+                    <p>First Name: {{order.firstName}}</p>
+                    <p>Last Name: {{order.lastName}}</p>
+                    <p>Phone Number: {{order.phone}}</p>
+
+
+                    <ul>
+                        <li v-for="courses in cart" :key="courses.id">
+                            {{courses.subject}}
+                        </li>
+                    </ul>
+
+                    <button>Checkout</button>
+                </div>
                 
             </main>
         </div>
@@ -184,12 +218,19 @@
                         }
                                    
                     ],
+
+                    order: {
+                        firstName: '',
+                        lastName: '',
+                        phone: '',
+                    },
+
                     showCourse: true,
                     cart: []    
                 },
                 methods: {
                     addToCart(course) {
-                        this.cart.push(course.id);
+                        this.cart.push(course);
                         course.availableSpace -= 1;
                     },
                     canAddToCart(course){
@@ -198,8 +239,7 @@
                     showCheckout(){
                         this.showCourse = this.showCourse ? false: true;
                     },
-                   
-
+                
              
                 },
                 computed: {
