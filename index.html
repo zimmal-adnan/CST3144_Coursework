@@ -10,6 +10,13 @@
            
             <header>
                 <h1 v-text="sitename"></h1>
+            
+                <button v-on:click="showCheckout">
+                    {{cartItemCount}}
+                    <span class = "fa-solid fa-cart-shopping"></span> Checkout
+                </button>
+                
+            </header>
             </header>
             <main>
                 <div v-for="course in courses" v-if="showCourse">
@@ -190,7 +197,10 @@
                     },
                     canAddToCart: function(course){
                         return course.availableSpace > 0;
-                    }
+                    },
+                    showCheckout(){
+                        this.showCourse = this.showCourse ? false: true;
+                    },
              
                 },
                 computed: {
