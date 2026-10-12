@@ -26,6 +26,21 @@
             <main>
                 <button v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
                 <button disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
+
+                <p>
+                    <select v-model="sortOption">
+                        <option disabled value=""><span class="fa-solid fa-sort"></span>Sort</option>
+                        <option value="subject">Subject</option>
+                        <option value="price">Price</option>
+                    </select>
+                    <select v-if="sortOption" v-model="sortOrder" v-on:change="sortCourses">
+                        <option disabled value="">Order</option>
+                        <option value="ascending">Ascending</option>
+                        <option value="descending">Descending</option>
+                    </select>
+                </p>
+                
+
                 
                 <div v-if="showCourse" class = "courseBox">
                     <div v-for="course in courses" class = "courseCard">
@@ -93,7 +108,7 @@
                             subject: 'Swimming',
                             description: "Is that a fish? Is that a dolphin? No! That is your little one zooming through our crystal clear pools! Make your child the next Michael Phelps by joining our swimming classes!",
                             location: "<b>Tower House Street, Leeds, United Kingdom</b>",
-                            price: "£10 / week",
+                            price: "£15 / week",
                             availableSpace: 5,
                         },
                         {
@@ -102,7 +117,7 @@
                             subject: 'Dancing',
                             description: "Bring out your child's elegance as they grace the stage with their presence! Enroll your little one to our dance classes where they will be trained to shine with our most professional coaches.",
                             location: "<b>2 Riverside Way, Leeds, United Kingdom</b>",
-                            price: "£15 / week",
+                            price: "£10 / week",
                             availableSpace: 5,
 
                         },
@@ -235,6 +250,9 @@
                                    
                     ],
 
+                    sortOption: '',
+                    sortOrder: '',
+                   
                     order: {
                         firstName: '',
                         lastName: '',
@@ -274,8 +292,59 @@
 
                     submitForm(){
                         alert("Order Submitted!")
+                    },
+                    sortPrice(){
+                        this.courses.sort((a,b) => {
+                            let priceA = parseFloat(a.price.replace('£', ''));
+                            let priceB = parseFloat(b.price.replace('£', ''));
+
+                            if (this.sortOrder == 'ascending') {
+                                return priceA - priceB;
+                            } 
+                            else {
+                                return priceB - priceA;
+                            }
+                        });
+                    },
+
+                    sortSubject(){
+                        this.courses.sort((a,b) => {
+                            let fa = a.subject.toLowerCase();
+                            let fb = b.subject.toLowerCase();
+
+                            if(this.sortOrder == 'ascending'){
+                                if (fa < fb) {
+                                    return -1;
+                                }
+                                if (fa > fb) {
+                                    return 1;
+                                }
+                                return 0;
+                            }
+
+                            else {
+                                if (fa < fb) {
+                                    return 1;
+                                }
+                                if (fa > fb) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
+                    },
+
+                    sortCourses() {
+                        if (this.sortOption == 'subject') {
+                            this.sortSubject();
+                        }
+
+                        if (this.sortOption == 'price') {
+                            this.sortPrice();
+                        }
                     }
                 },
+
 
                 computed: {
                     cartItemCount(){
@@ -286,8 +355,8 @@
                     },
                     checkoutVisible(){
                         return this.checkName(this.order.firstName) && this.checkName(this.order.lastName) && this.checkPhone(this.order.phone);
-                    }
-      
+                    },
+  
                 }
             });  
             
