@@ -1,0 +1,60 @@
+body{
+    background-color: #FFF5E8;
+    padding: 1em;
+    margin: 0;
+}
+
+header h1{
+    font-family: "Sour Gummy", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 3em;
+}
+
+header h2{
+    font-family: "Sour Gummy", sans-serif;
+    font-style: normal;
+     font-weight: 500;
+    font-size: 1.5em;
+}
+
+main h2{
+    font-family: "Concert One", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 1.5em;
+}
+
+p{
+    font-family: "Concert One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+header{
+    margin: 0;
+    padding: 4em 2em;
+
+    background: #CCD69D;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.courseBox{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2em;
+    max-width: 80em;
+    margin: 3em auto;
+}
+
+.courseCard{
+    background-color: #F6ECC3;
+    border: 0.2em solid #BFB978;
+    border-radius: 20px;
+    padding: 25px;
+}
+

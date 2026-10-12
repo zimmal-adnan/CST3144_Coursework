@@ -4,20 +4,31 @@
         <title>After School Classes</title>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" />
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Coiny&family=Concert+One&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+        <link rel="stylesheet" href="index.css">
     </head>
+
     <body>
-        <div id = "app">
-           
+        <div id = "app"> 
+
             <header>
                 <h1 v-text="sitename"></h1>
+                <h2 id = "subheading">Explore a wide variety of after-school classes to unveil your child's true potential</h2>
             
-                <button v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
-                <button disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
+                
             </header>
 
             <main>
-                <div v-if="showCourse">
-                    <div v-for="course in courses">
+                <button v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
+                <button disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
+                
+                <div v-if="showCourse" class = "courseBox">
+                    <div v-for="course in courses" class = "courseCard">
                         <h2 v-text="course.subject"></h2>
                         <p>{{course.description}}</p>
                         <p>Location: <span v-html="course.location"></span></p>
