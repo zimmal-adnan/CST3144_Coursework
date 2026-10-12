@@ -44,6 +44,9 @@
                 
                 <div v-if="showCourse" class = "courseBox">
                     <div v-for="course in courses" class = "courseCard">
+                        <figure>
+                            <img v-bind:src="course.image" height = "150">
+                        </figure>
                         <h2 v-text="course.subject"></h2>
                         <p>{{course.description}}</p>
                         <p>Location: <span v-html="course.location"></span></p>
@@ -104,6 +107,7 @@
                     courses: [
                         {
                             id: 1,
+                            image: "images/placeholder.jpg",
                             category: 'Physical Activity',
                             subject: 'Swimming',
                             description: "Is that a fish? Is that a dolphin? No! That is your little one zooming through our crystal clear pools! Make your child the next Michael Phelps by joining our swimming classes!",
@@ -113,6 +117,7 @@
                         },
                         {
                             id: 2,
+                            image: "images/placeholder.jpg",
                             category: 'Physical Activity',
                             subject: 'Dancing',
                             description: "Bring out your child's elegance as they grace the stage with their presence! Enroll your little one to our dance classes where they will be trained to shine with our most professional coaches.",
@@ -123,6 +128,7 @@
                         },
                         {
                             id: 3,
+                            image: "images/placeholder.jpg",
                             category: 'Physical Activity',
                             subject: 'Gymnastics',
                             description: "Watch your little one soar through the air! Improve your child's flexibility, strength and coordination with professional coaches and trainers. Unlock your child's true potential by signing up to our gymnastics classes today!",
@@ -132,6 +138,7 @@
                         },
                         {
                             id: 4,
+                            image: "images/placeholder.jpg",
                             category: 'Physical Activity',
                             subject: 'Martial Arts',
                             description: "Have your little one be your small bodyguard! Learn self defense techniques and basic Kung Fu from professional Chinese Masters. Sign up TODAY!",
@@ -141,6 +148,7 @@
                         },
                         {
                             id: 5,
+                            image: "images/placeholder.jpg",
                             category: 'STEM',
                             subject: 'Coding',
                             description: "Introduce your child to a world of infinite possibilities. Our coding classes prepares your child to be the next computer genius with engaging quizzes, games and projects for them to do! Register now!",
@@ -150,6 +158,7 @@
                         },
                         {
                             id: 6,
+                            image: "images/placeholder.jpg",
                             category: 'STEM',
                             subject: 'Robotics',
                             description: "Learn how to make your own talking robot friend! Enroll your little one into our robotics classes where experts will provide them hands-on training!",
@@ -159,6 +168,7 @@
                         },
                         {
                             id: 7,
+                            image: "images/placeholder.jpg",
                             category: 'STEM',
                             subject: 'Science',
                             description: "Ready for your child to launch the next scientific breakthrough? Reserve their spot in our science classes today!",
@@ -168,6 +178,7 @@
                         },
                         {
                             id: 8,
+                            image: "images/placeholder.jpg",
                             category: 'STEM',
                             subject: 'Maths',
                             description: "A human calculator?! That is exactly what your child will become after registering with our Mathematics classes from renowned teachers around the world!",
@@ -177,6 +188,7 @@
                         },
                         {
                             id: 9,
+                            image: "images/placeholder.jpg",
                             category: 'Literacy',
                             subject: 'Language',
                             description: "Hola! Bonjour! Hala! Equip your little one with the ability to communicate with anyone from around the world! Sign up to one of our highly-recognised language classes with professional native-speakers and teachers!",
@@ -186,6 +198,7 @@
                         },
                         {
                             id: 10,
+                            image: "images/placeholder.jpg",
                             category: 'Literacy',
                             subject: 'Creative Writing',
                             description: "Allow us to help your child express their dreams and fantasies into words and captivate readers with their bedazzling imagination. Enroll your little one in our creative writing classes today!",
@@ -195,6 +208,7 @@
                         },
                         {
                             id: 11,
+                            image: "images/placeholder.jpg",
                             category: 'Literacy',
                             subject: 'Journaling',
                             description: "Exhausted from school? Overthinking? Let the ink on the page convey your little one's thoughts. Join our journaling classes where we offer the best techniques to set your mind free!",
@@ -204,6 +218,7 @@
                         },
                         {
                             id: 12,
+                            image: "images/placeholder.jpg",
                             category: 'Literacy',
                             subject: 'Tutoring',
                             description: "Distractions, distractions and more distractions! Your little one just cannot seem to sit and do their homework. But don't fret! Register your child for our tutoring classes where expert teachers ensure your child stays concentrated and delivers the best results in their studies!",
@@ -213,6 +228,7 @@
                         },
                         {
                             id: 13,
+                            image: "images/placeholder.jpg",
                             category: 'Creative Arts',
                             subject: 'Theatre',
                             description: "The world's next big Hollywood star is just one step away from immersing themselves in the spotlight! Sign your little one up for our grand theatre classes today!",
@@ -222,6 +238,7 @@
                         },
                         {
                             id: 14,
+                            image: "images/placeholder.jpg",
                             category: 'Creative Arts',
                             subject: 'Painting',
                             description: "Allow your child to freely express their feelings and emotions into a colorful array on a canvas. Sign up for our painting classes now!",
@@ -231,6 +248,7 @@
                         },
                         {
                             id: 15,
+                            image: "images/placeholder.jpg",
                             category: 'Creative Arts',
                             subject: 'Music',
                             description: "Present your little one with the opportunity to become the world's next Beethovan! Enroll in our music classes today where we offer a wide variety of lessons for any instrument of your child's choice!",
@@ -240,6 +258,7 @@
                         },
                         {
                             id: 16,
+                            image: "images/placeholder.jpg",
                             category: 'Creative Arts',
                             subject: 'Animation',
                             description: "What better way to display your child's creativity than encouraging them to bring their drawings to life! Sign up for our animation classes today taught by highly-expertised teachers in the field!",
