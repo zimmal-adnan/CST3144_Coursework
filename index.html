@@ -15,49 +15,53 @@
 
     <body>
         <div id = "app"> 
-
-            <header>
+            <hr class = "outerLine">
+            <hr class = "innerLine">
+            <header> 
                 <h1 v-text="sitename"></h1>
-                <h2 id = "subheading">Explore a wide variety of after-school classes to unveil your child's true potential</h2>
-            
-                
+                <h2 id = "subheading">Explore a wide variety of after-school classes to unveil your child's true potential</h2>     
             </header>
+            <hr class = "innerLine">
+            <hr class = "outerLine">
 
             <main>
-                <button v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
-                <button disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
+                <section class="mainSection">
+                    <button v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
+                    <button disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
 
-                <p>
-                    <select v-model="sortOption">
-                        <option disabled value=""><span class="fa-solid fa-sort"></span>Sort</option>
-                        <option value="subject">Subject</option>
-                        <option value="price">Price</option>
-                    </select>
-                    <select v-if="sortOption" v-model="sortOrder" v-on:change="sortCourses">
-                        <option disabled value="">Order</option>
-                        <option value="ascending">Ascending</option>
-                        <option value="descending">Descending</option>
-                    </select>
-                </p>
-                
+                    <div v-if="showCourse" class = "mainCourses">
+                        <p class = "selectSection">
+                            <select v-model="sortOption" class = "sortSelect">
+                                <option disabled value=""><span class="fa-solid fa-sort"></span>Sort</option>
+                                <option value="subject">Subject</option>
+                                <option value="price">Price</option>
+                            </select>
+                            <select v-if="sortOption" v-model="sortOrder" v-on:change="sortCourses">
+                                <option disabled value="">Order</option>
+                                <option value="ascending">Ascending</option>
+                                <option value="descending">Descending</option>
+                            </select>
+                        </p>
 
-                
-                <div v-if="showCourse" class = "courseBox">
-                    <div v-for="course in courses" class = "courseCard">
-                        <figure>
-                            <img v-bind:src="course.image" height = "150">
-                        </figure>
-                        <h2 v-text="course.subject"></h2>
-                        <p>{{course.description}}</p>
-                        <p>Location: <span v-html="course.location"></span></p>
-                        <p>Price: {{course.price}}</p>
-                        <p>Available Space: {{course.availableSpace}} </p>
+                        <div class = "courseBox">
+                                <div v-for="course in courses" class = "courseCard">
+                                
+                                <img v-bind:src="course.image" height = "150">
+                                <h2 v-text="course.subject"></h2>
+                                <p>{{course.description}}</p>
+                                <p>Location: <span v-html="course.location"></span></p>
+                                <p>Price: {{course.price}}</p>
+                                <p>Available Space: {{course.availableSpace}} </p>
 
 
-                        <button v-on:click="addToCart(course)" v-if="canAddToCart(course)">Add to Cart</button>
-                        <button disabled = "disabled" v-else>Add to Cart</button>
+                                <button v-on:click="addToCart(course)" v-if="canAddToCart(course)">Add to Cart</button>
+                                <button disabled = "disabled" v-else>Add to Cart</button>
+                            </div>
+                        </div>
+                        
                     </div>
-                </div>
+                </section>
+                
                 
 
 
@@ -312,6 +316,7 @@
                     submitForm(){
                         alert("Order Submitted!")
                     },
+                    
                     sortPrice(){
                         this.courses.sort((a,b) => {
                             let priceA = parseFloat(a.price.replace('£', ''));
