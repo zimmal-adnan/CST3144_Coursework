@@ -1,10 +1,13 @@
 const express = require('express');
 const chalk = require('chalk');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
 
+//CORS
+app.use(cors());
 
 //Logger Middleware
 app.use((req, res, next) =>{
