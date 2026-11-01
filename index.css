@@ -37,31 +37,6 @@ p{
     font-style: normal;
 }
 
-
-header{
-    margin: 0;
-    padding: 4em 2em;
-    background: #ECE5A3;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.courseBox{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2em;
-    max-width: 80em;
-    margin: 3em auto;
-}
-
-.courseCard{
-    background-color: #F6ECC3;
-    border: 0.2em solid #BFB978;
-    border-radius: 20px;
-    padding: 25px;
-}
-
 .outerLine{
     border: 4px solid #8B9871;
     margin: 0;
@@ -74,23 +49,204 @@ header{
     padding: 0;
 }
 
+header{
+    margin: 0;
+    padding: 4em 2em;
+    background: #ECE5A3;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .selectSection{
     display: flex;
     justify-content: left;
+    gap: 0.6em;
     padding: 0;
     margin: 1em;
 }
 
-.sortSelect{
+.sortSelect, .optionSelect{
+    appearance: none;
+    -webkit-appearance: none;
+
+    margin-top: 1em;
+
     cursor: pointer;
     font-family: "Sour Gummy", sans-serif;
-    font-optical-sizing: auto;
     font-weight: 800;
-    font-style: normal;
     font-size: 1.1em;
-    color:  #4E5C38;
-    padding: 0.5em;
+    padding: 0.5em 1.8em 0.5em 0.8em;
     border-radius: 0.8em;
-    border: 3px solid #4E5C38;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%234E5C38' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.6em center;
+    background-size: 1em;
+}
+
+.sortSelect{
+    color:  #4E5C38;
+    border: 2px solid #4E5C38;
     background-color: #C0BB79;
+}
+.optionSelect{
+    color:#4E5C38;
+    border: 2px solid #4E5C38;
+    background-color: #F6ECC3;
+}
+
+.sortSelect option {
+    font-family: "Sour Gummy", sans-serif;
+    font-weight: 500;
+    color: #4E5C38;
+    background-color: #F6ECC3;
+    padding: 0.5em;
+}
+
+.optionSelect option{
+    font-family: "Sour Gummy", sans-serif;
+    font-weight: 500;
+    color:#4E5C38;
+    border: 2px solid #4E5C38;
+    background-color: #F6ECC3;
+}
+
+
+.shoppingCartButton, .shoppingCartButtonDisabled{
+    position: fixed;
+    font-family: "Sour Gummy", sans-serif;
+    font-weight: 900;
+    font-size: 1.2em;
+    top: 0;
+    right: 0;
+    padding: 0.75em 1.5em;
+    border-width: 0 0 4px 4px;
+    border-style: solid;
+    border-radius: 0px 0px 0px 20px;
+    z-index: 5;
+    cursor: pointer;
+}
+
+.shoppingCartButton{
+    background-color: #C0BB79;
+    color: #4E5C38;
+    border-color: #4E5C38;
+}
+
+.shoppingCartButtonDisabled{
+    background-color: #dbd69c;
+    color: #93a17d;
+    border-color: #93a17d;
+}
+
+.courseBox{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2em;
+    max-width: 85em;
+    margin: 1em auto;
+}
+
+.courseCard{
+    display: flex;
+    flex-direction: column;
+    background-color: #F6ECC3;
+    border: 0.2em solid #BFB978;
+    border-radius: 20px;
+    padding: 1.75em;
+    margin-top: 2em;
+}
+
+.courseCard p {
+    margin: 0 0 0.8em 0;
+    line-height: 1.2;
+}
+
+.addToCartButtonClass, .checkoutPageButtonClass {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    padding-top: 1em;
+}
+
+.addToCartButton, .addToCartButtonDisabled, 
+.checkoutPageButton, .checkoutPageButtonDisabled{
+    padding: 0.5em 2em;
+    font-family: "Sour Gummy", sans-serif;
+    font-weight: 800;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+
+.addToCartButton, .checkoutPageButton{
+    background-color: #C0BB79;
+    color: #4E5C38;
+    border: 2px solid #4E5C38;
+}
+
+.addToCartButtonDisabled, .checkoutPageButtonDisabled{
+    background-color: #dbd69c;
+    color: #93a17d;
+    border: 2px solid #93a17d;
+}
+
+.addToCartButton, .addToCartButtonDisabled{
+    font-size: 1em;
+}
+
+.checkoutPageButton, .checkoutPageButtonDisabled{
+    width: 20em;
+    font-size: 1.2em;
+}
+
+.checkoutPage h2{
+    font-family: "Sour Gummy", sans-serif;
+    font-weight: 800;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.orderSection{
+    margin: 1em;
+    background-color: #F6ECC2;
+    padding: 1em 2em;
+    border-radius: 1.5em;
+    border: 5px solid #BFB978;
+}
+
+.orderSection h2{
+    font-size: 1.6em;
+}
+
+.orderSection hr {
+    margin: 0;
+    border: none;
+    border-top: 2px dashed #BFB978;
+}
+
+.orderSection p{
+    margin: 0;
+    font-size: 1.2em;
+    padding: 0.5em 1em;
+}
+
+.detailSection{
+    margin: 0.8em 0;
+    background-color:#fff9dd;
+}
+
+.orderSection h3{
+    padding: 0em 1em;
+    font-family: "Concert One", sans-serif;
+    font-weight: 800;
+}
+
+.detailSection ul{
+    margin-top: 2em;
+    font-family: "Concert One", sans-serif;
+    font-weight: 300;
+    font-size: 1em;
 }

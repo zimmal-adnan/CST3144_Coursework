@@ -15,28 +15,29 @@
 
     <body>
         <div id = "app"> 
-            <hr class = "outerLine">
-            <hr class = "innerLine">
-            <header> 
-                <h1 v-text="sitename"></h1>
-                <h2 id = "subheading">Explore a wide variety of after-school classes to unveil your child's true potential</h2>     
+
+            <hr class = "outerLine" v-if="showCourse">
+            <hr class = "innerLine" v-if="showCourse">
+            <header v-if="showCourse">  
+                    <h1 v-text="sitename"></h1>
+                    <h2 id = "subheading">Explore a wide variety of after-school classes to unveil your child's true potential!</h2>    
             </header>
-            <hr class = "innerLine">
-            <hr class = "outerLine">
+            <hr class = "outerLine" v-if="showCourse">
+            <hr class = "innerLine" v-if="showCourse">
 
             <main>
-                <section class="mainSection">
-                    <button v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
-                    <button disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
-
-                    <div v-if="showCourse" class = "mainCourses">
+                <button class = "shoppingCartButton" v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
+                <button class = "shoppingCartButtonDisabled" disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
+                
+                <section class="mainSection" v-if="showCourse">
+                    <div class = "mainCourses">
                         <p class = "selectSection">
                             <select v-model="sortOption" class = "sortSelect">
-                                <option disabled value=""><span class="fa-solid fa-sort"></span>Sort</option>
+                                <option disabled value="">Sort</option>
                                 <option value="subject">Subject</option>
                                 <option value="price">Price</option>
                             </select>
-                            <select v-if="sortOption" v-model="sortOrder" v-on:change="sortCourses">
+                            <select class = "optionSelect" v-if="sortOption" v-model="sortOrder" v-on:change="sortCourses">
                                 <option disabled value="">Order</option>
                                 <option value="ascending">Ascending</option>
                                 <option value="descending">Descending</option>
@@ -44,7 +45,7 @@
                         </p>
 
                         <div class = "courseBox">
-                                <div v-for="course in courses" class = "courseCard">
+                            <div v-for="course in courses" class = "courseCard">
                                 
                                 <img v-bind:src="course.image" height = "150">
                                 <h2 v-text="course.subject"></h2>
@@ -53,9 +54,11 @@
                                 <p>Price: {{course.price}}</p>
                                 <p>Available Space: {{course.availableSpace}} </p>
 
-
-                                <button v-on:click="addToCart(course)" v-if="canAddToCart(course)">Add to Cart</button>
-                                <button disabled = "disabled" v-else>Add to Cart</button>
+                                <div class = "addToCartButtonClass">
+                                    <button class = "addToCartButton" v-on:click="addToCart(course)" v-if="canAddToCart(course)">Add to Cart</button>
+                                    <button class = "addToCartButtonDisabled" disabled = "disabled" v-else>Add to Cart</button>
+                                </div>
+                                
                             </div>
                         </div>
                         
@@ -65,7 +68,7 @@
                 
 
 
-               <div v-else>
+               <div class = "checkoutPage" v-else>
                     <h2>Checkout Page for Customer</h2>
 
                     <p>
@@ -84,21 +87,47 @@
                         <span v-if="order.phone && !checkPhone(order.phone)">Please enter a valid phone number</span>
                     </p>
 
-                    <h2>Order Information</h2>
-                    <p>First Name: {{order.firstName}}</p>
-                    <p>Last Name: {{order.lastName}}</p>
-                    <p>Phone Number: {{order.phone}}</p>
+                    <section class = "orderSection">
+                        <h2>Order Information</h2>
 
-
-                    <ul>
-                        <li v-for="course in cart">
-                            {{course.subject}}
-                            <button v-on:click = "removeCourse(course)">Remove</button>
-                        </li>
-                    </ul>
-
-                    <button v-on:click="submitForm" v-if="checkoutVisible">Checkout</button>
-                    <button disabled = "disabled" v-else>Checkout</button>
+                        <section class = "detailSection">
+                            <hr/>
+                            <p>First Name: {{order.firstName}}</p>
+                            <hr/>
+                        </section>
+                        
+                        <section class = "detailSection">
+                            <hr/>
+                            <p>Last Name: {{order.lastName}}</p>
+                            <hr/>
+                        </section>
+                        
+                        <section class = "detailSection">
+                            <hr/>
+                            <p>Phone Number: {{order.phone}}</p>
+                            <hr/>
+                        </section>
+                        
+                        <section class = "detailSection">
+                            <hr/>
+                            <h3>Your Cart</h3>
+                            <hr style = "width: 15em; margin: -0.5em 1em; border: none; border-top: 2px solid #BFB978;"/>
+                            <ul>
+                                <li v-for="course in cart">
+                                    {{course.subject}}
+                                    <button v-on:click = "removeCourse(course)">Remove</button>
+                                </li>
+                            </ul>
+                            <hr/>
+                        </section>
+                        
+                    </section>
+                
+                    <div class = "checkoutPageButtonClass">
+                        <button class = "checkoutPageButton" v-on:click="submitForm" v-if="checkoutVisible">CHECKOUT</button>
+                        <button class = "checkoutPageButtonDisabled" disabled = "disabled" v-else>CHECKOUT</button>
+                    </div>
+                    
                 </div>
                 
             </main>
@@ -107,7 +136,7 @@
             let webstore = new Vue({
                 el: '#app',
                 data: {
-                    sitename: "Book Your After School Classes",
+                    sitename: "The Extra Hour",
                     courses: [
                         {
                             id: 1,
