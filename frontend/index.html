@@ -36,6 +36,8 @@
                                 <option disabled value="">Sort</option>
                                 <option value="subject">Subject</option>
                                 <option value="price">Price</option>
+                                <option value="space">Space</option>
+                                <option value="location">Location</option>
                             </select>
                             <select class = "optionSelect" v-if="sortOption" v-model="sortOrder" v-on:change="sortCourses">
                                 <option disabled value="">Order</option>
@@ -223,6 +225,47 @@
                         });
                     },
 
+                    sortSpace(){
+                        this.courses.sort((a, b) => {
+                            let fa = a.availableSpace;
+                            let fb = b.availableSpace;
+
+                            if (this.sortOrder == 'ascending') {
+                                return fa - fb;
+                            } 
+                            else {
+                                return fb - fa;
+                            }
+                        });
+                    },
+
+                    sortLocation(){
+                        this.courses.sort((a,b) => {
+                            let fa = a.location.toLowerCase();
+                            let fb = b.location.toLowerCase();
+
+                            if(this.sortOrder == 'ascending'){
+                                if (fa < fb) {
+                                    return -1;
+                                }
+                                if (fa > fb) {
+                                    return 1;
+                                }
+                                return 0;
+                            }
+
+                            else {
+                                if (fa < fb) {
+                                    return 1;
+                                }
+                                if (fa > fb) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
+                    },
+
                     sortCourses() {
                         if (this.sortOption == 'subject') {
                             this.sortSubject();
@@ -230,6 +273,14 @@
 
                         if (this.sortOption == 'price') {
                             this.sortPrice();
+                        }
+
+                        if(this.sortOption == 'space'){
+                            this.sortSpace();
+                        }
+
+                        if(this.sortOption == 'location'){
+                            this.sortLocation();
                         }
                     },
                 },
@@ -246,7 +297,8 @@
                         return this.checkName(this.order.firstName) && this.checkName(this.order.lastName) && this.checkPhone(this.order.phone);
                     },
                 },
-
+                
+                //fetch from backend
                 created() {
                     fetch('http://localhost:3000/lessons')
                         .then(response => response.json())
