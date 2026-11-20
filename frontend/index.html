@@ -49,7 +49,7 @@
                         <div class = "courseBox">
                             <div v-for="course in courses" class = "courseCard">
                                 
-                                <img v-bind:src="course.image" height = "150">
+                                <img class = "courseImage" v-bind:src="course.image">
                                 <h2 v-text="course.subject"></h2>
                                 <p>{{course.description}}</p>
                                 <p>Location: <span v-html="course.location"></span></p>
@@ -73,21 +73,40 @@
                <div class = "checkoutPage" v-else>
                     <h2>Checkout Page for Customer</h2>
 
-                    <p>
-                        <strong>First Name:</strong>
-                        <input v-model.trim="order.firstName" title="Enter first name..."/>
-                        <span v-if="order.firstName && !checkName(order.firstName)">Letters only!</span>
-                    </p>
-                    <p>
-                        <strong>Last Name:</strong>
-                        <input v-model.trim="order.lastName" title="Enter last name..."/>
-                        <span v-if="order.lastName && !checkName(order.lastName)">Letters only!</span>
-                    </p>
-                     <p>
-                        <strong>Phone:</strong>
-                        <input v-model.trim="order.phone" title="Enter phone number..."/>
-                        <span v-if="order.phone && !checkPhone(order.phone)">Please enter a valid phone number</span>
-                    </p>
+                    <section class = "formSection">
+                        <h2>Form</h2>
+                        <p>
+                            <strong>First Name:</strong>
+                            <input v-model.trim="order.firstName" title="Enter first name..."/>
+                            <span v-if="order.firstName && !checkName(order.firstName)">Letters only!</span>
+                        </p>
+                        <p>
+                            <strong>Last Name:</strong>
+                            <input v-model.trim="order.lastName" title="Enter last name..."/>
+                            <span v-if="order.lastName && !checkName(order.lastName)">Letters only!</span>
+                        </p>
+                        <p>
+                            <strong>Email:</strong>
+                            <input type="email" v-model.trim="order.email" title="Enter email address..."/>
+                        </p>
+                        <p>
+                            <strong>Phone:</strong>
+                            <input v-model.trim="order.phone" title="Enter phone number..."/>
+                            <span v-if="order.phone && !checkPhone(order.phone)">Please enter a valid phone number</span>
+                        </p>
+                        <p>
+                            <strong>City</strong>
+                            <select id="city" v-model="order.city">
+                                <option disabled value="">Select your city</option>
+                                <option value="London">London</option>
+                                <option value="Manchester">Manchester</option>
+                                <option value="Birmingham">Birmingham</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </p>
+                    </section>
+
+                    
 
                     <section class = "orderSection">
                         <h2>Order Information</h2>
@@ -103,21 +122,33 @@
                             <p>Last Name: {{order.lastName}}</p>
                             <hr/>
                         </section>
+
+                        <section class = "detailSection">
+                            <hr/>
+                            <p>Email: {{order.email}}</p>
+                            <hr/>
+                        </section>
                         
                         <section class = "detailSection">
                             <hr/>
                             <p>Phone Number: {{order.phone}}</p>
                             <hr/>
                         </section>
+
+                        <section class = "detailSection">
+                            <hr/>
+                            <p>City: {{order.city}}</p>
+                            <hr/>
+                        </section>
                         
                         <section class = "detailSection">
                             <hr/>
-                            <h3>Your Cart</h3>
+                            <h3>Your Cart <span class = "fa-solid fa-cart-shopping" style = "font-size: 0.9em;"></span> </h3>
                             <hr style = "width: 15em; margin: -0.5em 1em; border: none; border-top: 2px solid #BFB978;"/>
                             <ul>
                                 <li v-for="course in cart">
                                     {{course.subject}}
-                                    <button v-on:click = "removeCourse(course)">Remove</button>
+                                    <button v-on:click = "removeCourse(course)"><span class = "fa-solid fa-x" style = "color: white; padding-top: 0.2em;"></span></button>
                                 </li>
                             </ul>
                             <hr/>
@@ -146,7 +177,9 @@
                     order: {
                         firstName: '',
                         lastName: '',
+                        email: '',
                         phone: '',
+                        city: ''
                     },
 
                     showCourse: true,
