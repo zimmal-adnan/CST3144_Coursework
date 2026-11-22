@@ -210,11 +210,10 @@
                         return /^[0-9]+$/.test(value);
                     },
                     checkName(value){
-                        return /^[A-Za-z]+$/.test(value);
+                        return /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(value);
                     },
-
-                    submitForm(){
-                        alert("Order Submitted!")
+                    checkEmail(value){
+                        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
                     },
                     
                     sortPrice(){
@@ -316,6 +315,49 @@
                             this.sortLocation();
                         }
                     },
+
+                    async submitForm(){
+                        const newOrder = {
+                            name: this.order.firstName + " " + this.order.lastName,
+                            email: this.order.email,
+                            phone: this.order.phone,
+                            city: this.order.city,
+                            lessonIds: this.cart.map(course => course._id),
+                            numberOfSpaces: this.cart.length 
+                        };
+
+
+                        try {
+                            const response = await fetch('http://localhost:3000/orders', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify(newOrder)
+                            });
+
+                            if (!response.ok) {
+                                throw new Error('Failed to submit order');
+                            }
+
+                            for(const course of this.cart){
+                                const updatedSpace = course.availableSpace - 1;
+
+                                const updatedResponse = await fetch(`http://localhost:3000/lessons/${course._id}`, {
+                                    method: 'PUT',
+                                    headers: {'Content-Type': 'application/json'},
+                                    body: JSON.stringify({space: updatedSpace})
+                                });
+
+                                if (!updatedResponse.ok) {
+                                    throw new Error('Failed to update lessons space');
+                                }
+                            }
+
+                            alert("Order Submitted!");
+
+                        } catch (err) {
+                            alert(err.message);
+                        }
+                    }
                 },
 
 
@@ -327,15 +369,18 @@
                         return this.cart.length > 0;
                     },
                     checkoutVisible(){
-                        return this.checkName(this.order.firstName) && this.checkName(this.order.lastName) && this.checkPhone(this.order.phone);
+                        return this.checkName(this.order.firstName) && 
+                        this.checkName(this.order.lastName) && 
+                        this.checkEmail(this.order.email) &&
+                        this.checkPhone(this.order.phone) &&
+                        this.order.city != '';
                     },
                 },
                 
                 //fetch from backend
-                created() {
-                    fetch('http://localhost:3000/lessons')
-                        .then(response => response.json())
-                        .then(data => {this.courses = data;});
+                async created() {
+                    const response = await fetch('http://localhost:3000/lessons');
+                    this.courses = await response.json();
                 }
             });  
             
