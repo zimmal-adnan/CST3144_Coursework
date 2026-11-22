@@ -16,48 +16,54 @@
     <body>
         <div id = "app"> 
 
-            <hr class = "outerLine" v-if="showCourse">
-            <hr class = "innerLine" v-if="showCourse">
-            <header v-if="showCourse">  
+            <hr class = "outerLine" v-if="showlesson">
+            <hr class = "innerLine" v-if="showlesson">
+            <header v-if="showlesson">  
                     <h1 v-text="sitename"></h1>
                     <h2 id = "subheading">Explore a wide variety of after-school classes to unveil your child's true potential!</h2>    
             </header>
-            <hr class = "outerLine" v-if="showCourse">
-            <hr class = "innerLine" v-if="showCourse">
+            <hr class = "outerLine" v-if="showlesson">
+            <hr class = "innerLine" v-if="showlesson">
+
+            <div class="searchBar">
+                <span class="fa-solid fa-magnifying-glass"></span>
+                <input class = "lessonSearch" v-model="searchQuery" @input = "fetchLessons" placeholder="Enter lesson..."> 
+
+            </div>
 
             <main>
                 <button class = "shoppingCartButton" v-on:click="showCheckout" v-if="canCheckout">{{cartItemCount}}<span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
                 <button class = "shoppingCartButtonDisabled" disabled = "disabled" v-else><span class = "fa-solid fa-cart-shopping"></span> Shopping Cart </button>
                 
-                <section class="mainSection" v-if="showCourse">
-                    <div class = "mainCourses">
+                <section class="mainSection" v-if="showlesson">
+                    <div class = "mainlessons">
                         <p class = "selectSection">
                             <select v-model="sortOption" class = "sortSelect">
                                 <option disabled value="">Sort</option>
                                 <option value="subject">Subject</option>
                                 <option value="price">Price</option>
-                                <option value="space">Space</option>
+                                <option value="availableSpace">Space</option>
                                 <option value="location">Location</option>
                             </select>
-                            <select class = "optionSelect" v-if="sortOption" v-model="sortOrder" v-on:change="sortCourses">
+                            <select class = "optionSelect" v-if="sortOption" v-model="sortOrder" v-on:change="sortlessons">
                                 <option disabled value="">Order</option>
                                 <option value="ascending">Ascending</option>
                                 <option value="descending">Descending</option>
                             </select>
                         </p>
 
-                        <div class = "courseBox">
-                            <div v-for="course in courses" class = "courseCard">
+                        <div class = "lessonBox">
+                            <div v-for="lesson in lessons" class = "lessonCard">
                                 
-                                <img class = "courseImage" v-bind:src="course.image">
-                                <h2 v-text="course.subject"></h2>
-                                <p>{{course.description}}</p>
-                                <p>Location: <span v-html="course.location"></span></p>
-                                <p>Price: {{course.price}}</p>
-                                <p>Available Space: {{course.availableSpace}} </p>
+                                <img class = "lessonImage" v-bind:src="lesson.image">
+                                <h2 v-text="lesson.subject"></h2>
+                                <p>{{lesson.description}}</p>
+                                <p>Location: <span v-html="lesson.location"></span></p>
+                                <p>Price: {{lesson.price}}</p>
+                                <p>Available Space: {{lesson.availableSpace}} </p>
 
                                 <div class = "addToCartButtonClass">
-                                    <button class = "addToCartButton" v-on:click="addToCart(course)" v-if="canAddToCart(course)">Add to Cart</button>
+                                    <button class = "addToCartButton" v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">Add to Cart</button>
                                     <button class = "addToCartButtonDisabled" disabled = "disabled" v-else>Add to Cart</button>
                                 </div>
                                 
@@ -146,9 +152,9 @@
                             <h3>Your Cart <span class = "fa-solid fa-cart-shopping" style = "font-size: 0.9em;"></span> </h3>
                             <hr style = "width: 15em; margin: -0.5em 1em; border: none; border-top: 2px solid #BFB978;"/>
                             <ul>
-                                <li v-for="course in cart">
-                                    {{course.subject}}
-                                    <button v-on:click = "removeCourse(course)"><span class = "fa-solid fa-x" style = "color: white; padding-top: 0.2em;"></span></button>
+                                <li v-for="lesson in cart">
+                                    {{lesson.subject}}
+                                    <button v-on:click = "removelesson(lesson)"><span class = "fa-solid fa-x" style = "color: white; padding-top: 0.2em;"></span></button>
                                 </li>
                             </ul>
                             <hr/>
@@ -169,8 +175,10 @@
             let webstore = new Vue({
                 el: '#app',
                 data: {
+                    
                     sitename: "The Extra Hour",
-                    courses: [],
+                    searchQuery: '',
+                    lessons: [],
                     sortOption: '',
                     sortOrder: '',
                    
@@ -182,27 +190,30 @@
                         city: ''
                     },
 
-                    showCourse: true,
+                    showlesson: true,
                     cart: []    
                 },
                 methods: {
-                    addToCart(course) {
-                        this.cart.push(course);
-                        course.availableSpace -= 1;
+                    addToCart(lesson) {
+                        this.cart.push(lesson);
+                        lesson.availableSpace -= 1;
                     },
-                    canAddToCart(course){
-                        return course.availableSpace > 0;
+                    canAddToCart(lesson){
+                        return lesson.availableSpace > 0;
                     },
                     showCheckout(){
-                        this.showCourse = this.showCourse ? false: true;
+                        this.showlesson = this.showlesson ? false: true;
                     },
 
-                    removeCourse(course){
-                        this.cart.pop(course);
-                        course.availableSpace += 1;
+                    removelesson(lesson){
+                        const index = this.cart.findIndex(item => item._id === lesson._id);
+
+                        this.cart.splice(index, 1);
+
+                        lesson.availableSpace += 1;
 
                         if(this.cart.length == 0){
-                            this.showCourse = true;
+                            this.showlesson = true;
                         }
                     },
 
@@ -217,7 +228,7 @@
                     },
                     
                     sortPrice(){
-                        this.courses.sort((a,b) => {
+                        this.lessons.sort((a,b) => {
                             let priceA = parseFloat(a.price.replace('£', ''));
                             let priceB = parseFloat(b.price.replace('£', ''));
 
@@ -231,7 +242,7 @@
                     },
 
                     sortSubject(){
-                        this.courses.sort((a,b) => {
+                        this.lessons.sort((a,b) => {
                             let fa = a.subject.toLowerCase();
                             let fb = b.subject.toLowerCase();
 
@@ -258,7 +269,7 @@
                     },
 
                     sortSpace(){
-                        this.courses.sort((a, b) => {
+                        this.lessons.sort((a, b) => {
                             let fa = a.availableSpace;
                             let fb = b.availableSpace;
 
@@ -272,7 +283,7 @@
                     },
 
                     sortLocation(){
-                        this.courses.sort((a,b) => {
+                        this.lessons.sort((a,b) => {
                             let fa = a.location.toLowerCase();
                             let fb = b.location.toLowerCase();
 
@@ -298,7 +309,7 @@
                         });
                     },
 
-                    sortCourses() {
+                    sortlessons() {
                         if (this.sortOption == 'subject') {
                             this.sortSubject();
                         }
@@ -307,7 +318,7 @@
                             this.sortPrice();
                         }
 
-                        if(this.sortOption == 'space'){
+                        if(this.sortOption == 'availableSpace'){
                             this.sortSpace();
                         }
 
@@ -315,6 +326,12 @@
                             this.sortLocation();
                         }
                     },
+                    
+                    async fetchLessons(){
+                        const response = await fetch(`http://localhost:3000/lessons?search=${encodeURIComponent(this.searchQuery)}`);
+                        this.lessons = await response.json();
+                    },
+                    
 
                     async submitForm(){
                         const newOrder = {
@@ -322,10 +339,9 @@
                             email: this.order.email,
                             phone: this.order.phone,
                             city: this.order.city,
-                            lessonIds: this.cart.map(course => course._id),
-                            numberOfSpaces: this.cart.length 
+                            lessonIds: this.cart.map(lesson => lesson._id),
+                            availableSpace: this.cart.length 
                         };
-
 
                         try {
                             const response = await fetch('http://localhost:3000/orders', {
@@ -338,13 +354,13 @@
                                 throw new Error('Failed to submit order');
                             }
 
-                            for(const course of this.cart){
-                                const updatedSpace = course.availableSpace - 1;
+                            for(const lesson of this.cart){
+                                const updatedSpace = lesson.availableSpace;
 
-                                const updatedResponse = await fetch(`http://localhost:3000/lessons/${course._id}`, {
+                                const updatedResponse = await fetch(`http://localhost:3000/lessons/${lesson._id}`, {
                                     method: 'PUT',
                                     headers: {'Content-Type': 'application/json'},
-                                    body: JSON.stringify({space: updatedSpace})
+                                    body: JSON.stringify({availableSpace: updatedSpace})
                                 });
 
                                 if (!updatedResponse.ok) {
@@ -353,6 +369,15 @@
                             }
 
                             alert("Order Submitted!");
+
+                            this.order.firstName = '';
+                            this.order.lastName = '';
+                            this.order.email = '';
+                            this.order.phone = '';
+                            this.order.city = '';
+                            this.cart = [];
+
+                            this.showlesson = true;
 
                         } catch (err) {
                             alert(err.message);
@@ -380,8 +405,9 @@
                 //fetch from backend
                 async created() {
                     const response = await fetch('http://localhost:3000/lessons');
-                    this.courses = await response.json();
-                }
+                    this.lessons = await response.json();
+                },
+                
             });  
             
         </script>
