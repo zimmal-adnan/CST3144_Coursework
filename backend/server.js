@@ -45,12 +45,61 @@ app.use(function(req, res, next) {
 //retrieves lesson information from the database
 app.get('/lessons', async (req, res, next) => {
     try {
-        const results = await db.collection('lessons').find({}).toArray();
+        const lessons = db.collection('lessons');
+        const search = req.query.search || '';
+
+        let query = {};
+
+        if (search) {
+            query = {
+                $or: [
+                    {subject: {$regex: search, $options: 'i'}},
+                    {location: { $regex: search, $options: 'i' }},
+                    {$expr: {
+                        $regexMatch: {
+                            input: {$toString: "$availableSpace"},
+                            regex: search,
+                            options: 'i'
+                        }
+                    }}
+                ]}
+        }
+
+        const results = await lessons.find(query).toArray();
         res.send(results);
     } catch (err) {
         next(err);
     }
 });
+
+app.get('/lessons', async (req, res) => {
+    const lessons = db.collection('lessons');
+    const queryLessons = req.query.search;
+
+    let results;
+
+
+    if (!queryLessons) {
+        results = await lessons.find({}).toArray();
+    } 
+    else {
+        results = await lessons.find({
+            $or: [
+                {subject: {$regex: queryLessons, $options: 'i'}},
+                {location: { $regex: queryLessons, $options: 'i' }},
+                {$expr: {
+                    $regexMatch: {
+                        input: {$toString: "$availableSpace"},
+                        regex: queryLessons,
+                        options: 'i'
+                    }
+                }}
+            ]}).toArray();
+    }
+
+    res.send(results);
+})
+
 
 //inserts order information to the collection
 app.post('/orders', async (req, res, next) => {
@@ -78,6 +127,8 @@ app.put('/lessons/:id', async (req, res, next) => {
         next(err);
     }
 });
+
+
 
 //Error Handler Middleware
 app.use(function(req, res) {
