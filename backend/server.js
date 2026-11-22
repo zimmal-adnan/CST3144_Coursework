@@ -42,13 +42,40 @@ app.use(function(req, res, next) {
     });
 });
 
-
-app.get('/lessons', async (req, res) => {
+//retrieves lesson information from the database
+app.get('/lessons', async (req, res, next) => {
     try {
         const results = await db.collection('lessons').find({}).toArray();
-        res.json(results);
+        res.send(results);
     } catch (err) {
-        res.status(500).json({error: err.message});
+        next(err);
+    }
+});
+
+//inserts order information to the collection
+app.post('/orders', async (req, res, next) => {
+    try {
+        const result = await db.collection('order').insertOne(req.body);
+        res.status(201).send({msg: 'success', insertedId: result.insertedId});
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.put('/lessons/:id', async (req, res, next) => {
+    try {
+        if (!ObjectId.isValid(req.params.id)) {
+            return res.status(400).send({ msg: 'Invalid ObjectId' });
+        }
+
+        const result = await db.collection('lessons').updateOne (
+            { _id: new ObjectId(req.params.id) },
+            { $set: req.body }
+        );
+
+        res.send(result.matchedCount === 1 ? { msg: 'success' } : { msg: 'error' });
+    } catch (err) {
+        next(err);
     }
 });
 
