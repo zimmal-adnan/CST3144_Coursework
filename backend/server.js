@@ -72,33 +72,7 @@ app.get('/lessons', async (req, res, next) => {
     }
 });
 
-app.get('/lessons', async (req, res) => {
-    const lessons = db.collection('lessons');
-    const queryLessons = req.query.search;
 
-    let results;
-
-
-    if (!queryLessons) {
-        results = await lessons.find({}).toArray();
-    } 
-    else {
-        results = await lessons.find({
-            $or: [
-                {subject: {$regex: queryLessons, $options: 'i'}},
-                {location: { $regex: queryLessons, $options: 'i' }},
-                {$expr: {
-                    $regexMatch: {
-                        input: {$toString: "$availableSpace"},
-                        regex: queryLessons,
-                        options: 'i'
-                    }
-                }}
-            ]}).toArray();
-    }
-
-    res.send(results);
-})
 
 
 //inserts order information to the collection
